@@ -1,0 +1,289 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>StreamForge</title>
+
+    <script src="https://cdn.tailwindcss.com"></script>
+
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        streamforge: "#e50914",
+                    }
+                }
+            }
+        }
+    </script>
+</head>
+
+<body class="bg-gray-950 text-white">
+
+    <!-- Navbar -->
+    <nav class="border-b border-gray-800 bg-black/80 backdrop-blur-md">
+        <div class="mx-auto flex max-w-7xl items-center justify-between px-6 py-4">
+
+            <!-- Logo -->
+            <a href="{% url 'home' %}" class="text-2xl font-bold text-red-600">
+                StreamForge
+            </a>
+
+            <!-- Navigation -->
+            <div class="flex items-center gap-6 text-sm">
+
+                <a href="{% url 'home' %}"
+                   class="text-gray-300 transition hover:text-white">
+                    Home
+                </a>
+
+            <a
+                href="{% url 'chat' %}"
+                class="px-4 py-2 rounded-lg bg-indigo-600 hover:bg-indigo-500 text-white font-medium transition"
+            >
+                🤖 AI Chat
+            </a>
+
+                <a href="#movies"
+                   class="text-gray-300 transition hover:text-white">
+                    Movies
+                </a>
+
+                <a href="#shows"
+                   class="text-gray-300 transition hover:text-white">
+                    Shows
+                </a>
+
+                {% if user.is_authenticated %}
+
+                    <a href="{% url 'profile' %}"
+                       class="text-gray-300 transition hover:text-white">
+                        Profile
+                    </a>
+
+                    <a href="{% url 'plans' %}"
+                       class="text-gray-300 transition hover:text-white">
+                        Plans
+                    </a>
+
+                    <span class="text-gray-500">
+                        {{ user.username }}
+                    </span>
+
+                    <a href="{% url 'logout' %}"
+                       class="rounded-lg bg-red-600 px-4 py-2 font-medium text-white transition hover:bg-red-700">
+                        Logout
+                    </a>
+
+                {% else %}
+
+                    <a href="{% url 'login' %}"
+                       class="text-gray-300 transition hover:text-white">
+                        Login
+                    </a>
+
+                    <a href="{% url 'register' %}"
+                       class="rounded-lg bg-red-600 px-4 py-2 font-medium text-white transition hover:bg-red-700">
+                        Register
+                    </a>
+
+                {% endif %}
+
+            </div>
+        </div>
+    </nav>
+
+
+    <!-- Hero -->
+    <section class="pt-32 pb-20 px-6">
+        <div class="max-w-7xl mx-auto">
+
+            <div class="max-w-2xl">
+
+                <p class="text-streamforge font-semibold uppercase tracking-widest text-sm mb-4">
+                    Welcome to StreamForge
+                </p>
+
+                <h1 class="text-5xl md:text-6xl font-bold leading-tight mb-6">
+                    Entertainment made for you.
+                </h1>
+
+                <p class="text-gray-400 text-lg mb-8">
+                    Watch movies and shows, explore new worlds,
+                    and discover something you'll love.
+                </p>
+
+                <button
+                    class="bg-streamforge hover:bg-red-700 px-6 py-3 rounded-lg font-semibold transition"
+                >
+                    Start Watching
+                </button>
+
+            </div>
+
+        </div>
+    </section>
+
+
+    <!-- Movies -->
+    <section class="px-6 pb-16">
+
+        <div class="max-w-7xl mx-auto">
+
+            <div class="flex items-center justify-between mb-6">
+
+                <h2 class="text-2xl font-bold">
+                    Movies
+                </h2>
+
+                <span class="text-gray-500 text-sm">
+                    {{ movies|length }} titles
+                </span>
+
+            </div>
+
+
+            <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-6">
+
+                {% for movie in movies %}
+
+                    <a
+                        href="{% url 'movie_detail' movie.id %}"
+                        class="group"
+                    >
+
+                        <div class="aspect-[2/3] bg-gray-800 rounded-lg overflow-hidden mb-3">
+
+                            {% if movie.poster_url %}
+
+                                <img
+                                    src="{{ movie.poster_url }}"
+                                    alt="{{ movie.title }}"
+                                    class="w-full h-full object-cover group-hover:scale-105 transition duration-300"
+                                >
+
+                            {% else %}
+
+                                <div class="w-full h-full flex items-center justify-center text-gray-600">
+                                    No Poster
+                                </div>
+
+                            {% endif %}
+
+                        </div>
+
+                        <h3 class="font-semibold truncate group-hover:text-streamforge">
+                            {{ movie.title }}
+                        </h3>
+
+                        <p class="text-gray-500 text-sm mt-1">
+                            {{ movie.release_date|date:"Y" }}
+                            ·
+                            {{ movie.age_rating }}
+                        </p>
+
+                    </a>
+
+                {% empty %}
+
+                    <p class="text-gray-500">
+                        No movies available.
+                    </p>
+
+                {% endfor %}
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <!-- Shows -->
+    <section class="px-6 pb-20">
+
+        <div class="max-w-7xl mx-auto">
+
+            <div class="flex items-center justify-between mb-6">
+
+                <h2 class="text-2xl font-bold">
+                    TV Shows
+                </h2>
+
+                <span class="text-gray-500 text-sm">
+                    {{ shows|length }} titles
+                </span>
+
+            </div>
+
+
+            <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-6">
+
+                {% for show in shows %}
+
+                    <a
+                        href="{% url 'show_detail' show.id %}"
+                        class="group"
+                    >
+
+                        <div class="aspect-[2/3] bg-gray-800 rounded-lg overflow-hidden mb-3">
+
+                            {% if show.poster_url %}
+
+                                <img
+                                    src="{{ show.poster_url }}"
+                                    alt="{{ show.title }}"
+                                    class="w-full h-full object-cover group-hover:scale-105 transition duration-300"
+                                >
+
+                            {% else %}
+
+                                <div class="w-full h-full flex items-center justify-center text-gray-600">
+                                    No Poster
+                                </div>
+
+                            {% endif %}
+
+                        </div>
+
+                        <h3 class="font-semibold truncate group-hover:text-streamforge">
+                            {{ show.title }}
+                        </h3>
+
+                        <p class="text-gray-500 text-sm mt-1">
+                            {{ show.release_date|date:"Y" }}
+                            ·
+                            {{ show.age_rating }}
+                        </p>
+
+                    </a>
+
+                {% empty %}
+
+                    <p class="text-gray-500">
+                        No shows available.
+                    </p>
+
+                {% endfor %}
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <!-- Footer -->
+    <footer class="border-t border-gray-800 py-8 px-6">
+
+        <div class="max-w-7xl mx-auto text-center text-gray-500 text-sm">
+            © {% now "Y" %} StreamForge. All rights reserved.
+        </div>
+
+    </footer>
+
+</body>
+</html>

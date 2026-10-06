@@ -17,7 +17,7 @@ class Movie(models.Model):
     duration = models.PositiveIntegerField(help_text="Duration in minutes")
     genres = models.ManyToManyField(Genre, related_name="movies", blank=True)
     age_rating = models.CharField(max_length=20)
-    poster = models.ImageField(upload_to="posters/movies/", blank=True,null=True)
+    poster_url = models.URLField(blank=True)
     created_at = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
@@ -30,7 +30,7 @@ class Show(models.Model):
     release_date = models.DateField()
     genres = models.ManyToManyField(Genre, related_name="shows", blank=True)
     age_rating = models.CharField(max_length=20)
-    poster = models.ImageField(upload_to="posters/shows/", blank=True, null=True)
+    poster_url = models.URLField(blank=True)
     created_at = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):

@@ -1,0 +1,341 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Profile - StreamForge</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+
+<body class="min-h-screen bg-black text-white">
+
+<nav class="border-b border-gray-800 bg-black/80">
+    <div class="mx-auto flex max-w-7xl items-center justify-between px-6 py-4">
+
+        <a href="{% url 'home' %}"
+           class="text-2xl font-bold text-red-600">
+            StreamForge
+        </a>
+
+        <div class="flex items-center gap-6 text-sm">
+
+            <a href="{% url 'home' %}"
+               class="text-gray-300 hover:text-white">
+                Home
+            </a>
+
+            <a href="{% url 'plans' %}"
+               class="text-gray-300 hover:text-white">
+                Plans
+            </a>
+
+            <a href="{% url 'logout' %}"
+               class="rounded-lg bg-red-600 px-4 py-2 hover:bg-red-700">
+                Logout
+            </a>
+
+        </div>
+
+    </div>
+</nav>
+
+
+<div class="mx-auto max-w-5xl px-6 py-12">
+
+    <!-- Profile Header -->
+    <div class="mb-8">
+
+        <h1 class="text-3xl font-bold">
+            My Profile
+        </h1>
+
+        <p class="mt-2 text-gray-400">
+            Manage your StreamForge account and subscription.
+        </p>
+
+    </div>
+
+
+    <!-- Messages -->
+    {% if messages %}
+
+        {% for message in messages %}
+
+            <div class="mb-6 rounded-lg border border-green-800
+                        bg-green-950/40 px-5 py-4 text-green-400">
+                {{ message }}
+            </div>
+
+        {% endfor %}
+
+    {% endif %}
+
+
+    <!-- Account Information -->
+    <div class="rounded-2xl border border-gray-800 bg-gray-950 p-8">
+
+        <h2 class="text-xl font-semibold">
+            Account Information
+        </h2>
+
+        <div class="mt-6 grid gap-6 md:grid-cols-2">
+
+            <div>
+                <p class="text-sm text-gray-500">
+                    Username
+                </p>
+
+                <p class="mt-1">
+                    {{ request.user.username }}
+                </p>
+            </div>
+
+            <div>
+                <p class="text-sm text-gray-500">
+                    Email
+                </p>
+
+                <p class="mt-1">
+                    {{ request.user.email }}
+                </p>
+            </div>
+
+            <div>
+                <p class="text-sm text-gray-500">
+                    Name
+                </p>
+
+                <p class="mt-1">
+                    {{ request.user.get_full_name|default:"Not provided" }}
+                </p>
+            </div>
+
+            <div>
+                <p class="text-sm text-gray-500">
+                    City
+                </p>
+
+                <p class="mt-1">
+                    {{ profile.city|default:"Not provided" }}
+                </p>
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <!-- Current Subscription -->
+    <div class="mt-8 rounded-2xl border border-gray-800 bg-gray-950 p-8">
+
+        <div class="flex items-center justify-between">
+
+            <h2 class="text-xl font-semibold">
+                Current Subscription
+            </h2>
+
+            <a href="{% url 'plans' %}"
+               class="rounded-lg bg-red-600 px-4 py-2 text-sm
+                      hover:bg-red-700">
+                Change Plan
+            </a>
+
+        </div>
+
+
+        {% if subscription %}
+
+            <div class="mt-6 grid gap-6 md:grid-cols-2">
+
+                <div>
+                    <p class="text-sm text-gray-500">
+                        Plan
+                    </p>
+
+                    <p class="mt-1 text-xl font-semibold">
+                        {{ subscription.plan.name }}
+                    </p>
+                </div>
+
+
+                <div>
+                    <p class="text-sm text-gray-500">
+                        Status
+                    </p>
+
+                    <p class="mt-1 font-semibold text-green-400">
+                        {{ subscription.get_status_display }}
+                    </p>
+                </div>
+
+
+                <div>
+                    <p class="text-sm text-gray-500">
+                        Quality
+                    </p>
+
+                    <p class="mt-1">
+                        {{ subscription.plan.max_quality }}
+                    </p>
+                </div>
+
+
+                <div>
+                    <p class="text-sm text-gray-500">
+                        Price
+                    </p>
+
+                    <p class="mt-1">
+                        Rs. {{ subscription.plan.price }} / month
+                    </p>
+                </div>
+
+
+                <div>
+                    <p class="text-sm text-gray-500">
+                        Started
+                    </p>
+
+                    <p class="mt-1">
+                        {{ subscription.start_date|date:"M d, Y" }}
+                    </p>
+                </div>
+
+
+                <div>
+                    <p class="text-sm text-gray-500">
+                        Expires
+                    </p>
+
+                    <p class="mt-1">
+                        {{ subscription.end_date|date:"M d, Y" }}
+                    </p>
+                </div>
+
+            </div>
+
+        {% else %}
+
+            <div class="mt-6 rounded-lg border border-gray-800
+                        bg-gray-900 p-6 text-center">
+
+                <p class="text-gray-400">
+                    You don't have an active subscription.
+                </p>
+
+                <a href="{% url 'plans' %}"
+                   class="mt-4 inline-block text-red-500 hover:text-red-400">
+                    Choose a plan →
+                </a>
+
+            </div>
+
+        {% endif %}
+
+    </div>
+
+
+    <!-- Payment History -->
+    <div class="mt-8 rounded-2xl border border-gray-800 bg-gray-950 p-8">
+
+        <h2 class="text-xl font-semibold">
+            Payment History
+        </h2>
+
+
+        {% if payments %}
+
+            <div class="mt-6 overflow-x-auto">
+
+                <table class="w-full text-left text-sm">
+
+                    <thead class="border-b border-gray-800 text-gray-500">
+
+                        <tr>
+                            <th class="pb-4">
+                                Date
+                            </th>
+
+                            <th class="pb-4">
+                                Plan
+                            </th>
+
+                            <th class="pb-4">
+                                Amount
+                            </th>
+
+                            <th class="pb-4">
+                                Transaction
+                            </th>
+
+                            <th class="pb-4">
+                                Status
+                            </th>
+                        </tr>
+
+                    </thead>
+
+
+                    <tbody>
+
+                        {% for payment in payments %}
+
+                            <tr class="border-b border-gray-900">
+
+                                <td class="py-4">
+                                    {{ payment.created_at|date:"M d, Y" }}
+                                </td>
+
+                                <td class="py-4">
+                                    {{ payment.subscription.plan.name }}
+                                </td>
+
+                                <td class="py-4">
+                                    Rs. {{ payment.amount }}
+                                </td>
+
+                                <td class="py-4 font-mono text-xs text-gray-500">
+                                    {{ payment.transaction_id }}
+                                </td>
+
+                                <td class="py-4">
+
+                                    {% if payment.status == "completed" %}
+                                        <span class="text-green-400">
+                                            Completed
+                                        </span>
+                                    {% elif payment.status == "failed" %}
+                                        <span class="text-red-400">
+                                            Failed
+                                        </span>
+                                    {% else %}
+                                        <span class="text-yellow-400">
+                                            {{ payment.get_status_display }}
+                                        </span>
+                                    {% endif %}
+
+                                </td>
+
+                            </tr>
+
+                        {% endfor %}
+
+                    </tbody>
+
+                </table>
+
+            </div>
+
+        {% else %}
+
+            <p class="mt-6 text-gray-500">
+                No payment history yet.
+            </p>
+
+        {% endif %}
+
+    </div>
+
+</div>
+
+</body>
+</html>
