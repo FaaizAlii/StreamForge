@@ -1,0 +1,163 @@
+# =========================
+# Python
+# =========================
+
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+
+# Python build / packaging
+build/
+dist/
+*.egg-info/
+.eggs/
+pip-wheel-metadata/
+
+# Test / coverage
+.pytest_cache/
+.coverage
+.coverage.*
+htmlcov/
+.tox/
+.nox/
+.cache/
+
+# Type checkers / linters
+.mypy_cache/
+.dmypy.json
+dmypy.json
+.pyre/
+.ruff_cache/
+
+# =========================
+# Virtual Environments
+# =========================
+
+.venv/
+venv/
+env/
+ENV/
+env.bak/
+venv.bak/
+
+# =========================
+# Environment / Secrets
+# =========================
+
+.env
+.env.*
+!.env.example
+
+*.pem
+*.key
+
+# =========================
+# PyCharm / IntelliJ
+# =========================
+
+.idea/
+*.iml
+*.iws
+*.ipr
+
+# =========================
+# VS Code
+# =========================
+
+.vscode/
+!.vscode/extensions.json
+!.vscode/settings.example.json
+
+# =========================
+# Jupyter Notebook
+# =========================
+
+.ipynb_checkpoints/
+
+# Jupyter temporary files
+*.ipynb_checkpoints
+
+# =========================
+# Databases
+# =========================
+
+*.db
+*.sqlite
+*.sqlite3
+
+# =========================
+# ChromaDB / Vector Stores
+# =========================
+
+chroma_db/
+**/chroma_db/
+
+# =========================
+# AI / ML generated files
+# =========================
+
+*.pkl
+*.pickle
+*.joblib
+*.onnx
+*.pt
+*.pth
+*.safetensors
+
+# =========================
+# Logs
+# =========================
+
+*.log
+logs/
+
+# =========================
+# Temporary files
+# =========================
+
+*.tmp
+*.temp
+*.swp
+*.swo
+*~
+.DS_Store
+Thumbs.db
+
+# =========================
+# OS / File Manager
+# =========================
+
+.DS_Store
+.AppleDouble
+.LSOverride
+
+# Linux
+.directory
+.Trash-*
+
+# Windows
+Thumbs.db
+ehthumbs.db
+Desktop.ini
+
+# =========================
+# Pytest / Coverage
+# =========================
+
+.pytest_cache/
+.coverage
+htmlcov/
+
+# =========================
+# Documentation / Build
+# =========================
+
+docs/_build/
+
+# =========================
+# Local configuration
+# =========================
+
+*.local
+config.local.*
